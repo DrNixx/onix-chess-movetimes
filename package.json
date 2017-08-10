@@ -1,0 +1,44 @@
+{
+  "name": "onix-chess-movetimes",
+  "version": "1.0.0",
+  "description": "Chess game movetimes graph",
+  "main": "built/index.js",
+  "scripts": {
+    "build": "tsc && webpack",
+    "webpack": "webpack",
+    "produce": "tsc && webpack --config webpack.production.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DrNixx/onix-chess-movetimes.git"
+  },
+  "keywords": [
+    "Chess",
+    "analyse",
+    "move",
+    "times",
+    "graph"
+  ],
+  "author": "Nick Panteleeff",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DrNixx/onix-chess-movetimes/issues"
+  },
+  "homepage": "https://github.com/DrNixx/onix-chess-movetimes#readme",
+  "dependencies": {
+    "onix-core": "^1.1.25",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "recharts": "^1.0.0-alpha.2"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.20",
+    "@types/react": "^15.6.1",
+    "awesome-typescript-loader": "^3.2.2",
+    "source-map-loader": "^0.2.1",
+    "typescript": "^2.4.2",
+    "warning": "^3.0.0",
+    "webpack": "^2.7.0"
+  }
+}

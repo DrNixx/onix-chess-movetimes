@@ -1,0 +1,9 @@
+node_modules
+built
+.vscode
+
+public/*.js
+public/*.js.map
+onix-chess-movetimes.js
+onix-chess-movetimes.js.map
+npm-debug.log
