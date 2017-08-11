@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>Position setup test</title>
+        <link href="assets/css/bootstrap.css" rel="stylesheet" />
+        <link href="assets/css/chess.css" rel="stylesheet" />
+
+        <style>
+            .movetimes {
+                width: 100%;
+            }
+
+            .graph-container {
+                width: calc(100% - 125px);
+                display: inline-block;
+            }
+
+            .graph-totals {
+                width: 120px;
+                height: 100%;
+                display: inline-block;
+            }
+
+            .graph-totals .white {
+                color: #000;
+            }
+
+            .graph-totals .black {
+                color: #fff;
+            }
+
+            .graph-totals .white, 
+            .graph-totals .black {
+                height: 200px;
+                text-align: center;
+                font-size: 2em;
+                font-weight: bold;
+            } 
+
+            .graph-totals .white > span, 
+            .graph-totals .black > span {
+                display: table;
+                height: 100%;
+                margin: 0 auto;
+                width: 100%;
+            } 
+
+            
+            .graph-totals .white > span span,
+            .graph-totals .black > span span {
+                text-align: center;
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+            @media (max-width: 991px) { 
+                .graph-container {
+                    width: 100%;
+                    display: block;
+                }
+
+                .graph-totals {
+                    width: 100%;
+                    height: auto;
+                    display: block;
+                    padding: .5em;
+                }
+             }
+        </style>
+    </head>
+    <body>
+        <div class="page-container row-fluid">
+            <div class="page-content ">
+                <div class="content">
+                    <div class="container-fluid">
+                        <div id="boardHere"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="chess-movetimes.react.js"></script>
+        <script src="chess-movetimes.app.js"></script>
+        <script src="chess-movetimes.tests.js"></script>
+        <script>
+            var props = {
+                board: {
+                    size: 4, 
+                    flip: false
+                },
+                dialog: true
+            };
+            
+            onix.MovesGraphTest(document.getElementById("boardHere"));
+        </script>
+    </body>
+</html>
