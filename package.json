@@ -1,6 +1,6 @@
 {
   "name": "onix-chess-movetimes",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Chess game movetimes graph",
   "main": "built/index.js",
   "types": "built/index.d.ts",

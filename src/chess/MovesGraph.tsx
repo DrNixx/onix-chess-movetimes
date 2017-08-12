@@ -39,11 +39,11 @@ export class MovesGraph extends React.Component<MovesGraphProps, MovesGraphState
         let black: number[] = [];
 
         props.white.forEach((value, index) => {
-            white.push(intVal(value / 100));
+            white.push(intVal(value / 10));
         });
 
         props.black.forEach((value, index) => {
-            black.push(intVal(value / 100));
+            black.push(intVal(value / 10));
         });
 
         this.state = {
