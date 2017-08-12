@@ -14,7 +14,12 @@ export interface MovesGraphProps {
     onTurnClick?: (ply: number) => void,
 }
 
-export class MovesGraph extends React.Component<MovesGraphProps, any> {
+export interface MovesGraphState {
+    white: number[],
+    black: number[],
+}
+
+export class MovesGraph extends React.Component<MovesGraphProps, MovesGraphState> {
     public static defaultProps: MovesGraphProps = {
         height: 400,
         colorWhite: "#f0d9b5",
@@ -29,6 +34,23 @@ export class MovesGraph extends React.Component<MovesGraphProps, any> {
     constructor(props: MovesGraphProps) {
         super(props);
         IntlChess.register();
+
+        let white: number[] = [];
+        let black: number[] = [];
+
+        props.white.forEach((value, index) => {
+            white.push(intVal(value / 100));
+        });
+
+        props.black.forEach((value, index) => {
+            black.push(intVal(value / 100));
+        });
+
+        this.state = {
+            white: white,
+            black: black
+        };
+
     }
 
     private formatTooltipValue = (...params) => {
@@ -57,7 +79,8 @@ export class MovesGraph extends React.Component<MovesGraphProps, any> {
     }
 
     render() {
-        const { height, colorWhite, colorBlack, white, black, startPly } = this.props;
+        const { height, colorWhite, colorBlack, startPly } = this.props;
+        const { white, black } = this.state;
 
         let totalWhite = 0;
         let totalBlack = 0;
