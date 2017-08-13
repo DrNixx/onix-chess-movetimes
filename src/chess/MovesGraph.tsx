@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ResponsiveContainer, BarChart, Bar, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Intl as IntlCore, intVal, formatTimestamp } from 'onix-core';
-import { Intl as IntlChess } from 'onix-chess';
+import { Intl as IntlChess, Color, Chess as Engine } from 'onix-chess';
 
 export interface MovesGraphProps {
     height?: number,
@@ -59,8 +59,8 @@ export class MovesGraph extends React.Component<MovesGraphProps, MovesGraphState
         );
     }
 
-    private formatTooltipLabel = (...params) => {
-        return "";
+    private formatTooltipLabel = (label) => {
+        return "#" + label;
     }
 
     private formatYTick = (value) => {
@@ -79,7 +79,7 @@ export class MovesGraph extends React.Component<MovesGraphProps, MovesGraphState
     }
 
     render() {
-        const { height, colorWhite, colorBlack, startPly } = this.props;
+        const { height, colorWhite, colorBlack, currentPly, startPly } = this.props;
         const { white, black } = this.state;
 
         let totalWhite = 0;
@@ -88,11 +88,11 @@ export class MovesGraph extends React.Component<MovesGraphProps, MovesGraphState
         let turn = 1;
         let ply = startPly;
         if (startPly > 0) {
-            if (startPly % 2 === 1) {
+            if (Engine.plyToColor(startPly) === Color.Black) {
                 white.unshift(0);
             }
 
-            turn = intVal(1 + (startPly - 1) / 2);
+            turn = Engine.plyToTurn(0, startPly);
         }
 
         const len = Math.max(white.length, black.length);
@@ -124,6 +124,7 @@ export class MovesGraph extends React.Component<MovesGraphProps, MovesGraphState
                             <ReferenceLine y={0} stroke='#000'/>
                             <Bar dataKey="white" name={IntlCore.t("chess", "white")} fill={colorWhite} stackId="stack" />
                             <Bar dataKey="black" name={IntlCore.t("chess", "black")} fill={colorBlack} stackId="stack" />
+                            { currentPly ? (<ReferenceLine x={Engine.plyToTurn(currentPly, startPly)} stroke="green" />) : null }
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
