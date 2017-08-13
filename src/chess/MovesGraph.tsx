@@ -86,13 +86,13 @@ export class MovesGraph extends React.Component<MovesGraphProps, MovesGraphState
         let totalBlack = 0;
         let data = [];
         let turn = 1;
-        let ply = startPly;
+        let ply = startPly + 1;
         if (startPly > 0) {
             if (Engine.plyToColor(startPly) === Color.Black) {
                 white.unshift(0);
             }
 
-            turn = Engine.plyToTurn(0, startPly);
+            turn = Engine.plyToTurn(1, startPly);
         }
 
         const len = Math.max(white.length, black.length);
