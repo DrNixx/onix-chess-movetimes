@@ -1,6 +1,7 @@
 import * as React from 'react';
+import toSafeInteger = require('lodash/toSafeInteger');
 import { ResponsiveContainer, BarChart, Bar, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { Intl as IntlCore, intVal, formatTimestamp } from 'onix-core';
+import { Intl as IntlCore, formatTimestamp } from 'onix-core';
 import { Intl as IntlChess, Color, Chess as Engine } from 'onix-chess';
 
 export interface MovesGraphProps {
@@ -39,11 +40,11 @@ export class MovesGraph extends React.Component<MovesGraphProps, MovesGraphState
         let black: number[] = [];
 
         props.white.forEach((value, index) => {
-            white.push(intVal(value / 10));
+            white.push(toSafeInteger(value / 10));
         });
 
         props.black.forEach((value, index) => {
-            black.push(intVal(value / 10));
+            black.push(toSafeInteger(value / 10));
         });
 
         this.state = {
@@ -97,8 +98,8 @@ export class MovesGraph extends React.Component<MovesGraphProps, MovesGraphState
 
         const len = Math.max(white.length, black.length);
         for (let i = 0; i < len; i++) {
-            const w = intVal(white[i]);
-            const b = intVal(black[i]);
+            const w = toSafeInteger(white[i]);
+            const b = toSafeInteger(black[i]);
             data.push({
                 turn: turn++,
                 ply: ply,
