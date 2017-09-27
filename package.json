@@ -1,6 +1,6 @@
 {
   "name": "onix-chess-movetimes",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Chess game movetimes graph",
   "main": "built/index.js",
   "types": "built/index.d.ts",
@@ -28,19 +28,19 @@
   },
   "homepage": "https://github.com/DrNixx/onix-chess-movetimes#readme",
   "dependencies": {
-    "onix-chess": "^1.1.14",
-    "onix-core": "^1.2.28",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "recharts": "^1.0.0-alpha.3",
+    "onix-chess": "^1.1.15",
+    "onix-core": "^1.2.29",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
+    "recharts": "^1.0.0-apha.5",
     "warning": "^3.0.0"
   },
   "devDependencies": {
-    "@types/node": "^8.0.24",
-    "@types/react": "^15.6.1",
+    "@types/node": "^8.0.31",
+    "@types/react": "^15.6.4",
     "awesome-typescript-loader": "^3.2.3",
     "source-map-loader": "^0.2.1",
-    "typescript": "^2.4.2",
+    "typescript": "^2.5.3",
     "webpack": "^2.7.0"
   }
 }
