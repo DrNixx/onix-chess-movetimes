@@ -1,6 +1,6 @@
 import * as React from 'react';
 import toSafeInteger = require('lodash/toSafeInteger');
-import { ResponsiveContainer, BarChart, Bar, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { Intl as IntlCore, formatTimestamp } from 'onix-core';
 import { Intl as IntlChess, Color, Chess as Engine } from 'onix-chess';
 
