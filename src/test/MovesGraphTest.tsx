@@ -1,8 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { MovesGraph, MovesGraphProps } from '../chess/MovesGraph';
+import { MovesGraphAsync } from '../chess/MovesGraphAsync';
+import { MovesGraphProps } from '../chess/MovesGraphProps';
 
 
 export const MovesGraphTest = (container: HTMLElement, props: MovesGraphProps) => {
-    ReactDOM.render(React.createElement(MovesGraph, props), container, () => { });
+    ReactDOM.render(React.createElement(MovesGraphAsync, props), container, () => { });
 };
