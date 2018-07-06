@@ -24,7 +24,7 @@ module.exports = {
             name: "manifest"
         },
         splitChunks: {
-            //chunks: 'all',
+            chunks: 'all',
             //name: false,
             cacheGroups: {
                 vendor: {
@@ -45,7 +45,8 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
+                loader: 'ts-loader',
+                options: { configFile: 'tsconfig.webpack.json' },
                 exclude: /node_modules/
             }
         ]

@@ -2,7 +2,7 @@ import * as React from 'react';
 import Loadable from "react-loadable";
 import { MovesGraphProps } from './MovesGraphProps';
 
-const LoadableBar = Loadable({
+const LoadableGraph = Loadable({
     loader: () => import(/* webpackChunkName: "moveTimeGraph" */ './MovesGraphDumb'),
     render(loaded, props: MovesGraphProps) {
         let Component = loaded.MovesGraphDumb;
@@ -15,6 +15,6 @@ const LoadableBar = Loadable({
 
 export class MovesGraphAsync extends React.Component<MovesGraphProps, {}> {
     render() {
-        return <LoadableBar {...this.props} />
+        return <LoadableGraph {...this.props} />
     }
 }
