@@ -121,10 +121,10 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
                 </div>
                 <div className="graph-totals">
                     <div className="row">
-                        <div className="col-xs-6 col-sm-6 col-md-12 col-lg-12 white" style={{ backgroundColor: colorWhite}}>
+                        <div className="col-6 col-sm-6 col-md-12 col-lg-12 white" style={{ backgroundColor: colorWhite}}>
                             <span><span>{formatTimestamp(totalWhite)}</span></span>
                         </div>
-                        <div className="col-xs-6 col-sm-6 col-md-12 col-lg-12 black" style={{ backgroundColor: colorBlack}}>
+                        <div className="col-6 col-sm-6 col-md-12 col-lg-12 black" style={{ backgroundColor: colorBlack}}>
                             <span><span>{formatTimestamp(totalBlack)}</span></span>
                         </div>
                     </div>
