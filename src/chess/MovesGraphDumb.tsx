@@ -1,5 +1,6 @@
 import toSafeInteger from 'lodash-es/toSafeInteger';
 import * as React from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
 import { ResponsiveContainer, BarChart, Bar, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { Intl as IntlCore, formatTimestamp } from 'onix-core';
 import { Intl as IntlChess, Color, Chess as Engine } from 'onix-chess';
@@ -119,16 +120,16 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
-                <div className="graph-totals">
-                    <div className="row">
-                        <div className="col-6 col-sm-6 col-md-12 col-lg-12 white" style={{ backgroundColor: colorWhite}}>
+                <Container className="graph-totals">
+                    <Row>
+                        <Col xs={6} sm={6} md={12} lg={12} className="white" style={{ backgroundColor: colorWhite}}>
                             <span><span>{formatTimestamp(totalWhite)}</span></span>
-                        </div>
-                        <div className="col-6 col-sm-6 col-md-12 col-lg-12 black" style={{ backgroundColor: colorBlack}}>
+                        </Col>
+                        <Col xs={6} sm={6} md={12} lg={12} className="black" style={{ backgroundColor: colorBlack}}>
                             <span><span>{formatTimestamp(totalBlack)}</span></span>
-                        </div>
-                    </div>
-                </div>
+                        </Col>
+                    </Row>
+                </Container>
             </div>
         );
     }
