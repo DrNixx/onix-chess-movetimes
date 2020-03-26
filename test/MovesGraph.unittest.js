@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';  
-import { MovesGraph } from '../dist/chess/MovesGraph';
+import { MovesGraph } from '../dist/js/chess/MovesGraph';
   
 describe('<MovesGraph/>', function () {
     it('create MovesGraph and test some props', function () {
