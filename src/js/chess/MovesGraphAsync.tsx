@@ -1,10 +1,10 @@
 import * as React from 'react';
-import Loadable from "react-loadable";
+import * as Loadable from "react-loadable";
 import { MovesGraphProps } from './MovesGraphProps';
 
 const LoadableGraph = Loadable({
     loader: () => import(/* webpackChunkName: "moveTimeGraph" */ './MovesGraphDumb'),
-    render(loaded, props: MovesGraphProps) {
+    render(loaded: any, props: MovesGraphProps) {
         let Component = loaded.MovesGraphDumb;
         return <Component {...props} />;
     },

@@ -21,7 +21,7 @@ module.exports = {
 	output: {
         libraryTarget: "umd",
         library: "onix",
-		filename: 'pos-builder.[name].js',
+		filename: 'chess-movetimes.[name].js',
 		path: path.resolve(__dirname, PATHS.build.scripts),
 		publicPath: '/assets/js',
     },
@@ -51,6 +51,20 @@ module.exports = {
 	devtool: PRODUCTION ? false : '#eval-source-map',
 	mode: PRODUCTION ? 'production' : 'development',
 	optimization: {
+        runtimeChunk: {
+            name: "manifest"
+        },
+        splitChunks: {
+            chunks: 'all',
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendors",
+                    priority: -20,
+                    chunks: "all"
+                }
+            }
+        },
 		minimize: PRODUCTION,
 	},
 	watch: !PRODUCTION && !hmrEnabled,
