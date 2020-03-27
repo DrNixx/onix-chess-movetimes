@@ -125,12 +125,12 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
                 <div className="graph-totals align-self-stretch">
                     <Container className="h-100">
                         <Row className="h-100">
-                            <Col xs={6} lg={12} className="white" style={{ backgroundColor: colorWhite}}>
+                            <Col xs={6} lg={12} className="white py-3" style={{ backgroundColor: colorWhite}}>
                                 <span className="h-100 d-flex justify-content-center align-items-center">
                                     <label>{formatTimestamp(totalWhite)}</label>
                                 </span>
                             </Col>
-                            <Col xs={6} lg={12} className="black" style={{ backgroundColor: colorBlack}}>
+                            <Col xs={6} lg={12} className="black  py-3" style={{ backgroundColor: colorBlack}}>
                                 <span className="h-100 d-flex justify-content-center align-items-center">
                                     <label>{formatTimestamp(totalBlack)}</label>
                                 </span>

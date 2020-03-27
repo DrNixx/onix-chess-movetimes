@@ -3,11 +3,14 @@
 {% block title %}Move times example {{ super() }}{% endblock title %}
 
 {% block stylesheets %}
-	{{ super() }}
 	<style>
-		.movetimes .recharts-text {
-            font-size: .75rem;
+        html, body {
+            font-size: 14px;
         }
+    </style>
+    {{ super() }}
+    <link rel="stylesheet" href="assets/css/movetimes.css" />
+	<style>
 	</style>
 {% endblock stylesheets %}
 

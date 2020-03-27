@@ -7,15 +7,18 @@ module.exports = {
 		html: base + '/',
 		assets: assets + '/',
 		scripts: assets + '/js/',
+		styles: assets + '/css/',
 	},
 	src: {
 		scripts: './src/js/index.ts',
+		styles: ['./src/css/*.scss', '!./src/css/_*.scss'], 
 		tests: './src/test/index.ts',
 		templates: './src/templates/',
 		nunj: 'src/templates/*.nunj',
 	},
 	watch: {
 		nunj: 'src/templates/**/*.nunj',
+		styles: 'src/css/**/*.scss', 
 		scripts: 'src/js/**/*.ts',
 	},
 	clean: base + '/*',

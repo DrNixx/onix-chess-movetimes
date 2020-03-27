@@ -1,0 +1,22 @@
+@import "functions";
+
+.movetimes {
+    .recharts-text {
+        font-size: .75rem;
+    }
+
+    .graph-totals {
+        max-width: none;
+        label {
+            font-weight: 500;
+        }
+    }
+}
+
+@media (min-width: 992px) { 
+    .movetimes {
+        .graph-totals {
+            max-width: rem-calc(170px);
+        }
+    }
+}
