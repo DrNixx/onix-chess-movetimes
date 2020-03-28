@@ -14,8 +14,6 @@ export interface MovesGraphState {
 export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphState> {
     public static defaultProps: MovesGraphProps = {
         height: 400,
-        colorWhite: "#f0d9b5",
-        colorBlack: "#b58863",
         white: [],
         black: [],
         startPly: 0,
@@ -52,7 +50,7 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
     }
 
     private formatTooltipLabel = (label: string | number) => {
-        return "#" + label;
+        return (<strong>{"#" + label.toString()}</strong>);
     }
 
     private formatYTick = (value: number) => {
@@ -73,7 +71,7 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
     }
 
     render() {
-        const { height, colorWhite, colorBlack, currentPly, startPly } = this.props;
+        const { height, currentPly, startPly } = this.props;
         const { white, black } = this.state;
 
         let totalWhite = 0;
@@ -114,10 +112,10 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
                             <XAxis dataKey="turn" hide={true} />
                             <YAxis tickFormatter={this.formatYTick}/>
                             <CartesianGrid strokeDasharray="3 3"/>
-                            <Tooltip formatter={this.formatTooltipValue} labelFormatter={this.formatTooltipLabel} />
+                            <Tooltip contentStyle={{ "font-size": ".75rem" }} formatter={this.formatTooltipValue} labelFormatter={this.formatTooltipLabel} />
                             <ReferenceLine y={0} stroke='#000'/>
-                            <Bar dataKey="white" name={IntlCore.t("chess", "white")} fill={colorWhite} stackId="stack" />
-                            <Bar dataKey="black" name={IntlCore.t("chess", "black")} fill={colorBlack} stackId="stack" />
+                            <Bar dataKey="white" name={IntlCore.t("chess", "white")} className="white" stackId="stack" />
+                            <Bar dataKey="black" name={IntlCore.t("chess", "black")} className="black" stackId="stack" />
                             { currentPly ? (<ReferenceLine x={Engine.plyToTurn(currentPly, startPly)} stroke="green" />) : null }
                         </BarChart>
                     </ResponsiveContainer>
@@ -125,12 +123,12 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
                 <div className="graph-totals align-self-stretch">
                     <Container className="h-100">
                         <Row className="h-100">
-                            <Col xs={6} lg={12} className="white py-3" style={{ backgroundColor: colorWhite}}>
+                            <Col xs={6} lg={12} className="white py-3">
                                 <span className="h-100 d-flex justify-content-center align-items-center">
                                     <label>{formatTimestamp(totalWhite)}</label>
                                 </span>
                             </Col>
-                            <Col xs={6} lg={12} className="black  py-3" style={{ backgroundColor: colorBlack}}>
+                            <Col xs={6} lg={12} className="black  py-3">
                                 <span className="h-100 d-flex justify-content-center align-items-center">
                                     <label>{formatTimestamp(totalBlack)}</label>
                                 </span>

@@ -1,7 +1,5 @@
 export interface MovesGraphProps {
     height?: number | string,
-    colorWhite?: string,
-    colorBlack?: string,
     white: number[],
     black: number[],
     startPly?: number,
