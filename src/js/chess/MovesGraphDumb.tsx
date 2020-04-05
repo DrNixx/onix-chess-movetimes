@@ -2,8 +2,8 @@ import toSafeInteger from 'lodash-es/toSafeInteger';
 import * as React from 'react';
 import { Container, Row, Col, TooltipProps } from 'react-bootstrap';
 import { ResponsiveContainer, BarChart, Bar, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-import { Intl as IntlCore, formatTimestamp } from 'onix-core';
-import { Intl as IntlChess, Color, Chess as Engine } from 'onix-chess';
+import { _, formatTimer } from 'onix-core';
+import { i18nRegister, Color, Chess as Engine } from 'onix-chess';
 import { MovesGraphProps } from './MovesGraphProps';
 
 export interface MovesGraphState {
@@ -23,7 +23,8 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
     
     constructor(props: MovesGraphProps) {
         super(props);
-        IntlChess.register();
+
+        i18nRegister();
 
         let white: number[] = [];
         let black: number[] = [];
@@ -45,7 +46,7 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
 
     private formatTooltipValue = (...params: any[]) => {
         return (
-            <span>{formatTimestamp(Math.abs(params[0]))}</span>
+            <span>{formatTimer(Math.abs(params[0]))}</span>
         );
     }
 
@@ -54,7 +55,7 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
     }
 
     private formatYTick = (value: number) => {
-        return formatTimestamp(Math.abs(value));
+        return formatTimer(Math.abs(value));
     }
 
     private handleClick = (data: any) => {
@@ -114,8 +115,8 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
                             <CartesianGrid strokeDasharray="3 3"/>
                             <Tooltip contentStyle={{ "font-size": ".75rem" }} formatter={this.formatTooltipValue} labelFormatter={this.formatTooltipLabel} />
                             <ReferenceLine y={0} stroke='#000'/>
-                            <Bar dataKey="white" name={IntlCore.t("chess", "white")} className="white" stackId="stack" />
-                            <Bar dataKey="black" name={IntlCore.t("chess", "black")} className="black" stackId="stack" />
+                            <Bar dataKey="white" name={_("chess", "white")} className="white" stackId="stack" />
+                            <Bar dataKey="black" name={_("chess", "black")} className="black" stackId="stack" />
                             { currentPly ? (<ReferenceLine x={Engine.plyToTurn(currentPly, startPly)} stroke="green" />) : null }
                         </BarChart>
                     </ResponsiveContainer>
@@ -125,12 +126,12 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
                         <Row className="h-100">
                             <Col xs={6} lg={12} className="white py-3">
                                 <span className="h-100 d-flex justify-content-center align-items-center">
-                                    <label>{formatTimestamp(totalWhite)}</label>
+                                    <label>{formatTimer(totalWhite)}</label>
                                 </span>
                             </Col>
                             <Col xs={6} lg={12} className="black  py-3">
                                 <span className="h-100 d-flex justify-content-center align-items-center">
-                                    <label>{formatTimestamp(totalBlack)}</label>
+                                    <label>{formatTimer(totalBlack)}</label>
                                 </span>
                             </Col>
                         </Row>
