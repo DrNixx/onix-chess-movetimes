@@ -7,16 +7,14 @@ import { i18nRegister, Color, Chess as Engine } from 'onix-chess';
 import { MovesGraphProps } from './MovesGraphProps';
 
 export interface MovesGraphState {
-    white: number[],
-    black: number[],
+    times: number[],
 }
 
 export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphState> {
     public static defaultProps: MovesGraphProps = {
         height: 400,
-        white: [],
-        black: [],
-        startPly: 0,
+        isLive: false,
+        view: { game: { startedAtTurn: 0 } },
         currentPly: 0,
         onTurnClick: (ply) => { }
     }    
@@ -26,27 +24,33 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
 
         i18nRegister();
 
-        let white: number[] = [];
-        let black: number[] = [];
+        const { isLive, view } = this.props;
+        let times: number[] = [];
+        const scale = isLive ? 10 : 1;
+        
+        if (isLive) {
+            times.push(0);
+        }
+        
+        if (view.game.moveCentis !== undefined) {
+            view.game.moveCentis.forEach((value, index) => {
+                times.push(toSafeInteger(value * scale));
+            })
+        }
 
-        props.white.forEach((value, index) => {
-            white.push(toSafeInteger(value / 10));
-        });
-
-        props.black.forEach((value, index) => {
-            black.push(toSafeInteger(value / 10));
-        });
+        if (times.length % 2 === 0) {
+            times.push(0);
+        }
 
         this.state = {
-            white: white,
-            black: black
+            times: times
         };
 
     }
 
     private formatTooltipValue = (...params: any[]) => {
         return (
-            <span>{formatTimer(Math.abs(params[0]))}</span>
+            <span>{formatTimer(Math.abs(params[0]), true, "0")}</span>
         );
     }
 
@@ -55,7 +59,7 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
     }
 
     private formatYTick = (value: number) => {
-        return formatTimer(Math.abs(value));
+        return formatTimer(Math.abs(value), true, "0");
     }
 
     private handleClick = (data: any) => {
@@ -72,38 +76,41 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
     }
 
     render() {
-        const { height, currentPly, startPly } = this.props;
-        const { white, black } = this.state;
+        const { height, currentPly, view } = this.props;
+        const { times } = this.state;
 
         let totalWhite = 0;
         let totalBlack = 0;
         let data = [];
         let turn = 1;
+        let startPly = view.game.startedAtTurn;
         let ply = startPly || 0 + 1;
         if (startPly && (startPly > 0)) {
-            if (Engine.plyToColor(startPly) === Color.Black) {
-                white.unshift(0);
-            }
+            //if (Engine.plyToColor(startPly) === Color.Black) {
+            //    white.unshift(0);
+            //}
 
             turn = Engine.plyToTurn(1, startPly);
         }
 
-        const len = Math.max(white.length, black.length);
-        for (let i = 0; i < len; i++) {
-            const w = toSafeInteger(white[i]);
-            const b = toSafeInteger(black[i]);
-            data.push({
-                turn: turn++,
-                ply: ply,
-                white: w,
-                black: -b,
-            });
-
-            totalWhite += w;
-            totalBlack += b;
-
-            ply += 2;
+        if (times.length > 1) {
+            for (let i = 1; i < times.length; i = i + 2) {
+                const w = times[i];
+                const b = times[i + 1];
+                data.push({
+                    turn: turn++,
+                    ply: ply,
+                    white: w,
+                    black: -b,
+                });
+    
+                totalWhite += w;
+                totalBlack += b;
+    
+                ply += 2;
+            }
         }
+        
 
         return (
             <div className="movetimes d-block d-lg-flex">
@@ -113,7 +120,7 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
                             <XAxis dataKey="turn" hide={true} />
                             <YAxis tickFormatter={this.formatYTick}/>
                             <CartesianGrid strokeDasharray="3 3"/>
-                            <Tooltip contentStyle={{ "font-size": ".75rem" }} formatter={this.formatTooltipValue} labelFormatter={this.formatTooltipLabel} />
+                            <Tooltip contentStyle={{ fontSize: ".75rem" }} formatter={this.formatTooltipValue} labelFormatter={this.formatTooltipLabel} />
                             <ReferenceLine y={0} stroke='#000'/>
                             <Bar dataKey="white" name={_("chess", "white")} className="white" stackId="stack" />
                             <Bar dataKey="black" name={_("chess", "black")} className="black" stackId="stack" />
