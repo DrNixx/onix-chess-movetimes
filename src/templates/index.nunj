@@ -21,6 +21,6 @@
     
 
     <script src="assets/js/chess-movetimes.manifest.js"></script>
-    <script src="assets/js/chess-movetimes.vendors~tests.js"></script>
+    <script src="assets/js/chess-movetimes.vendors.js"></script>
     <script src="assets/js/chess-movetimes.tests.js"></script>
 {% endblock content %}
