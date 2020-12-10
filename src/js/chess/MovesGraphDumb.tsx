@@ -1,51 +1,44 @@
 import toSafeInteger from 'lodash-es/toSafeInteger';
 import * as React from 'react';
-import { Container, Row, Col, TooltipProps } from 'react-bootstrap';
+import { Unsubscribe } from 'redux';
+import { Container, Row, Col } from 'react-bootstrap';
 import { ResponsiveContainer, BarChart, Bar, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { _, formatTimer } from 'onix-core';
-import { i18nRegister, Color, Chess as Engine } from 'onix-chess';
+import { i18nRegister, Color, Chess as ChessEngine, GameRelatedStore, GameActions, GameRelatedState, IGameData } from 'onix-chess';
 import { MovesGraphProps } from './MovesGraphProps';
 
-export interface MovesGraphState {
-    times: number[],
+interface IGraphData {
+    turn: string|number;
+    ply: number;
+    white: number;
+    black: number;
 }
 
-export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphState> {
-    public static defaultProps: MovesGraphProps = {
-        height: 400,
-        isLive: false,
-        view: { game: { startedAtTurn: 0 } },
-        currentPly: 0,
-        onTurnClick: (ply) => { }
-    }    
+export class MovesGraphDumb extends React.Component<MovesGraphProps, {}> {
     
+    private store: GameRelatedStore;
+
+    private storeUnsubscribe?: Unsubscribe = undefined;
+
     constructor(props: MovesGraphProps) {
         super(props);
 
         i18nRegister();
 
-        const { isLive, view } = this.props;
-        let times: number[] = [];
-        const scale = isLive ? 10 : 1;
-        
-        if (isLive) {
-            times.push(0);
-        }
-        
-        if (view.game.moveCentis !== undefined) {
-            view.game.moveCentis.forEach((value, index) => {
-                times.push(toSafeInteger(value * scale));
-            })
-        }
+        this.store = props.store;
+    }
 
-        if (times.length % 2 === 0) {
-            times.push(0);
+    componentDidMount() {
+        const { store, forceUpdate } = this;
+        this.storeUnsubscribe = store.subscribe(() => forceUpdate());
+    }
+
+    componentWillUnmount() {
+        const { storeUnsubscribe } = this;
+
+        if (storeUnsubscribe) {
+            storeUnsubscribe();
         }
-
-        this.state = {
-            times: times
-        };
-
     }
 
     private formatTooltipValue = (...params: any[]) => {
@@ -55,7 +48,8 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
     }
 
     private formatTooltipLabel = (label: string | number) => {
-        return (<strong>{"#" + label.toString()}</strong>);
+        const str = (label === 0) ? _("chess", "startPos") : "#" + label.toString();
+        return (<strong>{str}</strong>);
     }
 
     private formatYTick = (value: number) => {
@@ -67,38 +61,55 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
         if (apl && apl[0]) {
             const pl = apl[0];
             if (pl && pl.payload) {
-                const { onTurnClick } = this.props;
-                if (onTurnClick !== undefined) {
-                    onTurnClick(pl.payload.ply);
-                }
+                this.store.dispatch({ type: GameActions.NAVIGATE_TO_PLY, ply: pl.payload.ply } as GameActions.GameAction);
             }
         }
     }
 
+    private getTimes = (data: IGameData) => {
+        const times: number[] = [];
+        const centis = data.game?.moveCentis;
+        if (centis) {
+            const { isLive } = this.props;
+            
+            const scale = isLive ? 10 : 1;
+            
+            if (isLive) {
+                times.push(0);
+            }
+            
+            centis.forEach((value, index) => {
+                times.push(toSafeInteger(value * scale));
+            })
+
+            if (times.length % 2 !== 0) {
+                times.push(0);
+            }
+        }
+
+        return times;
+    }; 
+
     render() {
-        const { height, currentPly, view } = this.props;
-        const { times } = this.state;
+        const { height } = this.props;
+        const { game }  = this.store.getState();
+        const { engine } = game;
+
+        const { RawData: gameData, StartPlyCount: startPly, CurrentPlyCount: currentPly } = engine;
+        const times = this.getTimes(gameData);
 
         let totalWhite = 0;
         let totalBlack = 0;
-        let data = [];
-        let turn = 1;
-        let startPly = view.game.startedAtTurn;
-        let ply = startPly || 0 + 1;
-        if (startPly && (startPly > 0)) {
-            //if (Engine.plyToColor(startPly) === Color.Black) {
-            //    white.unshift(0);
-            //}
-
-            turn = Engine.plyToTurn(1, startPly);
-        }
-
-        if (times.length > 1) {
-            for (let i = 1; i < times.length; i = i + 2) {
+        
+        const data: IGraphData[] = [{ turn: 0, ply: 0, white: 0, black: 0 }];
+        
+        if (times.length > 0) {
+            for (let i = 0; i < times.length; i = i + 2) {
                 const w = times[i];
                 const b = times[i + 1];
+                let ply = startPly + i;
                 data.push({
-                    turn: turn++,
+                    turn: ChessEngine.plyToTurn(ply),
                     ply: ply,
                     white: w,
                     black: -b,
@@ -106,12 +117,9 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
     
                 totalWhite += w;
                 totalBlack += b;
-    
-                ply += 2;
             }
         }
         
-
         return (
             <div className="movetimes d-block d-lg-flex">
                 <div className="graph-container flex-grow-1">
@@ -124,7 +132,7 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, MovesGraphS
                             <ReferenceLine y={0} stroke='#000'/>
                             <Bar dataKey="white" name={_("chess", "white")} className="white" stackId="stack" />
                             <Bar dataKey="black" name={_("chess", "black")} className="black" stackId="stack" />
-                            { currentPly ? (<ReferenceLine x={Engine.plyToTurn(currentPly, startPly)} stroke="green" />) : null }
+                            { currentPly ? (<ReferenceLine x={ChessEngine.plyToTurn(currentPly)} stroke="green" />) : null }
                         </BarChart>
                     </ResponsiveContainer>
                 </div>

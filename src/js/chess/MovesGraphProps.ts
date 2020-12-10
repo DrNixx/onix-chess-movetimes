@@ -1,8 +1,7 @@
-import { IView } from './Interfaces';
+import { GameStore, GameRelatedStore } from 'onix-chess';
+
 export interface MovesGraphProps {
     height?: number | string,
     isLive?: boolean,
-    view: IView,
-    currentPly?: number,
-    onTurnClick?: (ply: number) => void,
+    store: GameRelatedStore
 }
