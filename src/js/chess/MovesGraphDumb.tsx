@@ -29,8 +29,10 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, {}> {
     }
 
     componentDidMount() {
-        const { store, forceUpdate } = this;
-        this.storeUnsubscribe = store.subscribe(() => forceUpdate());
+        const { store, updateMovetimes } = this;
+        this.storeUnsubscribe = store.subscribe(() => {
+            updateMovetimes();
+        });
     }
 
     componentWillUnmount() {
@@ -40,6 +42,10 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, {}> {
             storeUnsubscribe();
         }
     }
+
+    private updateMovetimes = () => {
+        this.forceUpdate();
+    };
 
     private formatTooltipValue = (...params: any[]) => {
         return (
