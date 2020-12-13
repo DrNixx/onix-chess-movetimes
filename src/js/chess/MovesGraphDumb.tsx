@@ -72,9 +72,9 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, {}> {
         }
     }
 
-    private getTimes = (data: IGameData) => {
+    private getTimes = (engine: ChessEngine) => {
         const times: number[] = [];
-        const centis = data.game?.moveCentis;
+        const centis = engine.RawData.game?.moveCentis;
         if (centis) {
             const { isLive } = this.props;
             
@@ -84,9 +84,16 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, {}> {
                 times.push(0);
             }
             
-            centis.forEach((value, index) => {
-                times.push(toSafeInteger(value * scale));
-            })
+            let move = engine.CurrentMove.First;
+            while (!move.END_MARKER) {
+                if (move.sm?.time) {
+                    times.push(toSafeInteger(move.sm?.time * scale));
+                } else {
+                    times.push(0);    
+                }
+
+                move = move.Next;
+            }
 
             if (times.length % 2 !== 0) {
                 times.push(0);
@@ -102,7 +109,7 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, {}> {
         const { engine } = game;
 
         const { RawData: gameData, StartPlyCount: startPly, CurrentPlyCount: currentPly } = engine;
-        const times = this.getTimes(gameData);
+        const times = this.getTimes(engine);
 
         let totalWhite = 0;
         let totalBlack = 0;
