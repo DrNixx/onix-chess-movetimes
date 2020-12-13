@@ -74,30 +74,26 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, {}> {
 
     private getTimes = (engine: ChessEngine) => {
         const times: number[] = [];
-        const centis = engine.RawData.game?.moveCentis;
-        if (centis) {
-            const { isLive } = this.props;
-            
-            const scale = isLive ? 10 : 1;
-            
-            if (isLive) {
-                times.push(0);
-            }
-            
-            let move = engine.CurrentMove.First;
-            while (!move.END_MARKER) {
-                if (move.sm?.time) {
-                    times.push(toSafeInteger(move.sm?.time * scale));
-                } else {
-                    times.push(0);    
-                }
-
-                move = move.Next;
+        const { isLive } = this.props;            
+        const scale = isLive ? 10 : 1;
+        
+        if (isLive) {
+            times.push(0);
+        }
+        
+        let move = engine.CurrentMove.First;
+        while (!move.END_MARKER) {
+            if (move.sm?.time) {
+                times.push(toSafeInteger(move.sm?.time * scale));
+            } else {
+                times.push(0);    
             }
 
-            if (times.length % 2 !== 0) {
-                times.push(0);
-            }
+            move = move.Next;
+        }
+
+        if (times.length % 2 !== 0) {
+            times.push(0);
         }
 
         return times;
@@ -108,7 +104,7 @@ export class MovesGraphDumb extends React.Component<MovesGraphProps, {}> {
         const { game }  = this.store.getState();
         const { engine } = game;
 
-        const { RawData: gameData, StartPlyCount: startPly, CurrentPlyCount: currentPly } = engine;
+        const { StartPlyCount: startPly, CurrentPlyCount: currentPly } = engine;
         const times = this.getTimes(engine);
 
         let totalWhite = 0;

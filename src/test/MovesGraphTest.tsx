@@ -2433,7 +2433,7 @@ const data2: IGameData = {
 
 
 const preloadedState: GameRelatedState = {
-    game: createGameState(data1)
+    game: createGameState(data2)
 }
 
 const store = createStore(
