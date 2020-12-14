@@ -2430,8 +2430,6 @@ const data2: IGameData = {
     finalFen: "r2n2k1/p5p1/1p2pp1r/4Nq1p/1PR2P2/P3PQ2/6PP/3R2K1 b - - 3 26"
 };
 
-
-
 const preloadedState: GameRelatedState = {
     game: createGameState(data2)
 }
