@@ -1,4 +1,4 @@
-import toSafeInteger from 'lodash-es/toSafeInteger';
+import toSafeInteger from 'lodash/toSafeInteger';
 import * as React from 'react';
 import { Unsubscribe } from 'redux';
 import { Container, Row, Col } from 'react-bootstrap';
