@@ -4,7 +4,7 @@ import { Unsubscribe } from 'redux';
 import { Container, Row, Col } from 'react-bootstrap';
 import { ResponsiveContainer, BarChart, Bar, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { _, formatTimer } from 'onix-core';
-import { i18nRegister, Color, Chess as ChessEngine, GameRelatedStore, GameActions, GameRelatedState, IGameData } from 'onix-chess';
+import { i18nRegister, Chess as ChessEngine, GameRelatedStore, GameActions } from 'onix-chess';
 import { MovesGraphProps } from './MovesGraphProps';
 
 interface IGraphData {
@@ -14,7 +14,7 @@ interface IGraphData {
     black: number;
 }
 
-export class MovesGraphDumb extends React.Component<MovesGraphProps, {}> {
+export default class MovesGraphDumb extends React.Component<MovesGraphProps, {}> {
     
     private store: GameRelatedStore;
 
