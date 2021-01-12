@@ -1,13 +1,33 @@
 import { createGameState, gameReducer, GameRelatedState, IGameData } from 'onix-chess';
 import * as React from 'react';
+import { Tab, Tabs } from 'react-bootstrap';
 import * as ReactDOM from 'react-dom';
 import { combineReducers, createStore } from 'redux'
 import { MovesGraphAsync } from '../js/chess/MovesGraphAsync';
+import { MovesGraph } from '../js/chess/MovesGraph';
 import { MovesGraphProps } from '../js/chess/MovesGraphProps';
 
+class MovesGraphTestComponent extends React.Component<MovesGraphProps, {}> {
+    render() {
+        return (
+            <Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
+                <Tab eventKey="home" title="Home">
+                    12345
+                </Tab>
+                <Tab eventKey="profile" title="Profile">
+                    <MovesGraphAsync {...this.props} />
+                </Tab>
+                <Tab eventKey="contact" title="Contact" disabled>
+                    12345
+                </Tab>
+            </Tabs>
+            
+        );
+    }
+}
 
 export const MovesGraphTest = (container: HTMLElement, props: MovesGraphProps) => {
-    ReactDOM.render(React.createElement(MovesGraphAsync, props), container, () => { });
+    ReactDOM.render(React.createElement(MovesGraphTestComponent, props), container, () => { });
 };
 
 const data1: IGameData = {
